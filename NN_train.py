@@ -66,14 +66,14 @@ def train_model(X, y, neurons_hidden=5, epochs=500, lr=0.1,
         #### statistiche
 
         #compute the binary output for the training set
-        output_binary = map(lambda x: 0 if (x<0.5) else 1, out_output_layer)
+        output_binary = [0 if (x<0.5) else 1 for x in out_output_layer]
         accuracy_values_train.append(accuracy_score(y_pred=output_binary,y_true=y))
         loss_values_train.append(MSE(y_pred=out_output_layer, y_true=y))
         
             #predict the values for the validation set
         if (validation_split > 0):
             output_validation = predict_values({'Wh': Wh, 'bh': bh, 'Wout': Wout, 'bout': bout}, X=X_valid)
-            output_validation_binary = map(lambda x: 0 if (x<0.5) else 1, output_validation)
+            output_validation_binary = [0 if (x<0.5) else 1 for x in output_validation]
             accuracy_values_valid.append(accuracy_score(y_pred=output_validation_binary, y_true=y_valid))
             loss_values_valid.append(MSE(y_pred=output_validation, y_true=y_valid))
             
@@ -93,8 +93,11 @@ def train_model_regression(X, y, X_valid=None, y_valid=None, neurons_hidden=5, e
                 reg_lambda=0.0, momentum_alpha=0.0, validation_split = 0.0):
     
     X,y = datapreprocessing(X,y)
-    if (X_valid is not None and y_valid is not None): X_valid, y_valid = datapreprocessing(X_valid, y_valid)
-    else: X,X_valid,y,y_valid = train_test_split(X,y,test_size=validation_split,shuffle=True)
+
+    if (X_valid is not None and y_valid is not None):
+        X_valid, y_valid = datapreprocessing(X_valid, y_valid)
+    else: 
+        X,X_valid,y,y_valid = train_test_split(X,y,test_size=validation_split,shuffle=True)
 
     # adatto la rete alla dimensione di input e output
     n_input_layer = X.shape[1]
@@ -169,7 +172,7 @@ def train_model_regression(X, y, X_valid=None, y_valid=None, neurons_hidden=5, e
             loss_values_train.append(None)
         
         # risultati per il validation set, di cui calcolo i valori di output con il modello ottenuto in ogni epoca
-        if (X_valid is not None and y_valid is not None):
+        if (len(X_valid) > 0 and len(y_valid) > 0):
             if (i > 30):
                 output_validation = predict_values({'Wh': Wh, 'bh': bh, 'Wout': Wout, 'bout': bout}, X=X_valid, classification=False)
                 loss_values_valid.append(MEE(y_pred=output_validation, y_true=y_valid))

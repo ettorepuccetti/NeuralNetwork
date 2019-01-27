@@ -34,7 +34,7 @@ def datapreprocessing(X,y):
     # forzo il cast delle etichette ad np.array, se lo è già non succede niente
     y = np.array(y)
     if len(y.shape) == 1:
-        y = np.array(map(lambda d: [d], y))  
+        y = np.array([[d] for d in y])  
     assert len(y.shape) == 2, "problemi dimensione vettore di etichette"
     
     assert len(X.shape) == 2, "problemi dimensione matrice di input"
@@ -103,16 +103,16 @@ def plot_point_cup(y_pred, y_true):
 
 def split_cross_validation(X,y,k,K):
     # validation set: indici di inizio e fine
-    ind_start = len(X)/K * (k-1)
-    ind_end = len(X)/K * k 
-    X_valid = X[ind_start:ind_end]
-    X_train = np.delete(X, range(ind_start,ind_end), axis=0)
-    y_valid = y[ind_start:ind_end]
-    y_train = np.delete(y, range(ind_start,ind_end), axis=0)
+    ind_start = int(len(X)/K) * (k-1)
+    ind_end = int(len(X)/K) * k
+    X_valid = np.array(X[ind_start:ind_end])
+    X_train = np.delete(X, list(range(ind_start,ind_end)), axis=0)
+    y_valid = np.array(y[ind_start:ind_end])
+    y_train = np.delete(y, list(range(ind_start,ind_end)), axis=0)
     return X_train,X_valid,y_train,y_valid
 
-#usata solo per prendere i risultati della grid search gia pronti da incollare nella relazione
+
 def print_grid(line):
-    print ("eta: %01.1f, alpha: %01.1f, lambda: %01.4f; %01.6f; %01.6f \n") % (line['hyperparam'][0],
-    line['hyperparam'][1], line['hyperparam'][2], line['loss_valid'], line['loss_train'])
+    print(("eta: %01.1f, alpha: %01.1f, lambda: %01.4f; loss (valid): %01.6f; loss (train): %01.6f \n") % (line['hyperparam'][0],
+    line['hyperparam'][1], line['hyperparam'][2], line['loss_valid'], line['loss_train']))
 
