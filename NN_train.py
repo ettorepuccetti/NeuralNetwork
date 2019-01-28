@@ -54,12 +54,14 @@ def train_model(X, y, X_valid=None, y_valid=None, neurons_hidden=5, epochs=500, 
         dWout_old = dWout 
         dWh_old = dWh
         
+            #output layer
         dWout = out_hidden_layer.T.dot(d_output) * lr
         dWout += -reg_lambda * lr * Wout                   # regolarizzazione
         dWout += momentum_alpha * dWout_old                # momentum
         Wout += dWout                                      # aggiornamento pesi
         bout += np.sum(d_output, axis=0,keepdims=True) *lr # aggiornamento bias 
         
+            # hidden layer
         dWh = X.T.dot(d_hiddenlayer) * lr
         dWh += -reg_lambda * lr * Wh                          # regolarizzazione
         dWh += momentum_alpha * dWh_old                       # momentum
@@ -127,7 +129,7 @@ def train_model_regression(X, y, X_valid=None, y_valid=None, neurons_hidden=5, e
     for i in range(0, epochs):
 
         #passo Forward
-        net_hidden_layer=np.dot(X,Wh) + bh
+        net_hidden_layer = np.dot(X,Wh) + bh
         out_hidden_layer = sigmoid(net_hidden_layer)
         net_output_layer = np.dot(out_hidden_layer,Wout) + bout
         out_output_layer = net_output_layer
