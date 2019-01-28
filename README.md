@@ -4,7 +4,7 @@
 
 Notation:
 
-![input](https://latex.codecogs.com/svg.latex%24X%20%3D%20%5Ctext%7Binput%20matrix%7D%24)
+![input](https://www.codecogs.com/eqnedit.php?latex=$X&space;=&space;\text{input&spacematrix}$"target="_blank)
 
 * $X = \text{input matrix}$
 * $Y_{out} = \text{output obtained from the output layer during the forward step}$
