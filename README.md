@@ -4,6 +4,8 @@
 
 Notation:
 
+![input](https://latex.codecogs.com/svg.latex%24X%20%3D%20%5Ctext%7Binput%20matrix%7D%24)
+
 * $X = \text{input matrix}$
 * $Y_{out} = \text{output obtained from the output layer during the forward step}$
 * $Y_{hid} = \text{output obtained from the hidden layer during the forward step}$
@@ -31,7 +33,7 @@ $$\delta_{hid} = W_{out}*\delta_{out}*f'(y_{hid})$$
 \
 The correction factor is so
 $$
-\Delta W_{out} = \eta (Y_{hid}*\delta_{out}-\lambda*W_{out}+\alpha * \Delta W_{out \space old})
+\Delta W_{out} = \eta\space (Y_{hid}*\delta_{out}-\lambda*W_{out}+\alpha * \Delta W_{out \space old})
 $$
 \
 \
