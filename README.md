@@ -33,15 +33,16 @@ Notation:
 
 <img src="https://latex.codecogs.com/svg.latex?$b_{hid}&space;=&space;\text{bias&space;vector&space;for&space;hidden&space;layer}$" title="$b_{hid} = \text{bias vector for hidden layer}$" />
 
-
 Backpropagation factors:
 
 <img src="https://latex.codecogs.com/svg.latex?$$\delta_{out}&space;=&space;Err&space;*&space;f'(Y_{out})$$" title="$$\delta_{out} = Err * f'(Y_{out})$$" />
 
 <img src="https://latex.codecogs.com/svg.latex?$$\delta_{hid}&space;=&space;W_{out}*\delta_{out}*f'(y_{hid})$$" title="$$\delta_{hid} = W_{out}*\delta_{out}*f'(y_{hid})$$" />
 
-The correction factor is so
+The correction factor is so:
+
 <img src="https://latex.codecogs.com/svg.latex?$$\Delta&space;W_{out}&space;=&space;\eta\space&space;(Y_{hid}*\delta_{out}-\lambda*W_{out}&plus;\alpha&space;*&space;\Delta&space;W_{out&space;\space&space;old})$$" title="$$\Delta W_{out} = \eta\space (Y_{hid}*\delta_{out}-\lambda*W_{out}+\alpha * \Delta W_{out \space old})$$" />
 
-Updating the wheigts
+Updating the wheigts:
+
 <img src="https://latex.codecogs.com/svg.latex?$$W_{out,&space;new}&space;=&space;\Delta&space;W_{out}&space;&plus;&space;W_{out,&space;old}$$" title="$$W_{out, new} = \Delta W_{out} + W_{out, old}$$" />
