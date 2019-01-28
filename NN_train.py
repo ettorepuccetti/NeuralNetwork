@@ -1,11 +1,15 @@
 # coding: utf-8
 from NN_tools import *
 
-def train_model(X, y, neurons_hidden=5, epochs=500, lr=0.1,
-                reg_lambda=0.0, momentum_alpha=0.0, validation_split = 0.0):
+def train_model(X, y, X_valid=None, y_valid=None, neurons_hidden=5, epochs=500, lr=0.1,
+                reg_lambda=0.0, momentum_alpha=0.0, validation_split = 0.0, threshold=0.5):
     
     X,y = datapreprocessing(X,y)
-    X,X_valid,y,y_valid = train_test_split(X,y,test_size=validation_split,shuffle=True)
+
+    if (X_valid is not None and y_valid is not None):
+        X_valid, y_valid = datapreprocessing(X_valid, y_valid)
+    else: 
+        X,X_valid,y,y_valid = train_test_split(X,y,test_size=validation_split,shuffle=True)
 
     # adatto la rete alla dimensione di input e output
     n_input_layer = X.shape[1]
@@ -66,14 +70,14 @@ def train_model(X, y, neurons_hidden=5, epochs=500, lr=0.1,
         #### statistiche
 
         #compute the binary output for the training set
-        output_binary = [0 if (x<0.5) else 1 for x in out_output_layer]
+        output_binary = [0 if (x<threshold) else 1 for x in out_output_layer]
         accuracy_values_train.append(accuracy_score(y_pred=output_binary,y_true=y))
         loss_values_train.append(MSE(y_pred=out_output_layer, y_true=y))
         
             #predict the values for the validation set
-        if (validation_split > 0):
+        if (len(X_valid) > 0):
             output_validation = predict_values({'Wh': Wh, 'bh': bh, 'Wout': Wout, 'bout': bout}, X=X_valid)
-            output_validation_binary = [0 if (x<0.5) else 1 for x in output_validation]
+            output_validation_binary = [0 if (x<threshold) else 1 for x in output_validation]
             accuracy_values_valid.append(accuracy_score(y_pred=output_validation_binary, y_true=y_valid))
             loss_values_valid.append(MSE(y_pred=output_validation, y_true=y_valid))
             

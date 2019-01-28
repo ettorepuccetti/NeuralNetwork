@@ -16,6 +16,10 @@ def derivatives_sigmoid(x):
 def MSE(y_true, y_pred):
     return np.mean((y_true - y_pred)**2)
 
+def MEE(y_pred, y_true):
+    return np.mean(np.sqrt(np.sum(np.square(y_pred - y_true),axis=1)))
+
+
 def predict_values(model, X, classification=True):
     Wh, bh, Wout, bout = model['Wh'], model['bh'], model['Wout'], model['bout']
     
@@ -45,23 +49,6 @@ def datapreprocessing(X,y):
     return X, y
 
 
-def plot_decision_boundary(model, X, y):
-    # Set min and max values and give it some padding
-    padding = 0.3
-    x_min, x_max = X[:, 0].min() - padding, X[:, 0].max() + padding
-    y_min, y_max = X[:, 1].min() - padding, X[:, 1].max() + padding
-    h = 0.01
-    # Generate a grid of points with distance h between them
-    xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
-    # Predict the function value for the whole gid
-    points = np.c_[xx.ravel(), yy.ravel()]
-    Z = np.array(predict_values(model,points))
-    Z = Z.reshape(xx.shape)
-    # Plot the contour and training examples
-    plt.figure(figsize=(10,7))
-    plt.contourf(xx, yy, Z, cmap = plt.get_cmap('Spectral'))
-    plt.scatter(X[:, 0], X[:, 1], c=np.array(y).reshape(-1), cmap = plt.get_cmap('Spectral'))
-    plt.show()
 
 def plot_loss_accuracy(model, print_accuracy=True):
     plt.figure(figsize=(10,7))
@@ -88,9 +75,6 @@ def plot_loss_accuracy(model, print_accuracy=True):
 
 
 
-def MEE(y_pred, y_true):
-    return np.mean(np.sqrt(np.sum(np.square(y_pred - y_true),axis=1)))
-
 
 def plot_point_cup(y_pred, y_true):
     plt.figure(figsize=(12,8))
@@ -98,7 +82,6 @@ def plot_point_cup(y_pred, y_true):
     plt.scatter(y_pred.T[0], y_pred.T[1], alpha= 0.5, s = 10, marker='^')
     plt.legend(['true', 'predicted'], loc='best', fontsize = 15)
     plt.show()
-
 
 
 def split_cross_validation(X,y,k,K):
