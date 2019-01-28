@@ -15,8 +15,7 @@ Notation:
 
 <img src="https://latex.codecogs.com/svg.latex?$Err&space;=&space;Y_{out}&space;-&space;Y_{target}$" title="$Err = Y_{out} - Y_{target}$" />
 
-
-<img src="https://latex.codecogs.com/svg.latex?$f(x)=\frac{1}{1&space;&plus;&space;e^{-x}}\text{\space&space;(sigmoid)}$" title="$f(x)=\frac{1}{1 + e^{-x}}\text{\space (sigmoid)}$" />
+<img src="https://latex.codecogs.com/svg.latex?f(x)&space;=&space;\frac{1}{1&plus;e^{-x}}\space\text{\qquad&space;[sigmoid&space;function]}" title="f(x) = \frac{1}{1+e^{-x}}\space\text{\qquad [sigmoid function]}" />
 
 <img src="https://latex.codecogs.com/svg.latex?$f'(x)=x*(1-x)$" title="$f'(x)=x*(1-x)$" />
 
@@ -34,26 +33,15 @@ Notation:
 
 <img src="https://latex.codecogs.com/svg.latex?$b_{hid}&space;=&space;\text{bias&space;vector&space;for&space;hidden&space;layer}$" title="$b_{hid} = \text{bias vector for hidden layer}$" />
 
-\
-\
+
 Backpropagation factors:
 
 <img src="https://latex.codecogs.com/svg.latex?$$\delta_{out}&space;=&space;Err&space;*&space;f'(Y_{out})$$" title="$$\delta_{out} = Err * f'(Y_{out})$$" />
 
 <img src="https://latex.codecogs.com/svg.latex?$$\delta_{hid}&space;=&space;W_{out}*\delta_{out}*f'(y_{hid})$$" title="$$\delta_{hid} = W_{out}*\delta_{out}*f'(y_{hid})$$" />
-\
-\
-\
-The correction factor is so
-$$
-\Delta W_{out} = \eta\space (Y_{hid}*\delta_{out}-\lambda*W_{out}+\alpha * \Delta W_{out \space old})
-$$
-\
-\
-\
-Updating the wheigts
-$$
-W_{out \space new} = \Delta W_{out} + W_{out \space old}
-$$
 
-[]
+The correction factor is so
+<img src="https://latex.codecogs.com/svg.latex?$$\Delta&space;W_{out}&space;=&space;\eta\space&space;(Y_{hid}*\delta_{out}-\lambda*W_{out}&plus;\alpha&space;*&space;\Delta&space;W_{out&space;\space&space;old})$$" title="$$\Delta W_{out} = \eta\space (Y_{hid}*\delta_{out}-\lambda*W_{out}+\alpha * \Delta W_{out \space old})$$" />
+
+Updating the wheigts
+<img src="https://latex.codecogs.com/svg.latex?$$W_{out,&space;new}&space;=&space;\Delta&space;W_{out}&space;&plus;&space;W_{out,&space;old}$$" title="$$W_{out, new} = \Delta W_{out} + W_{out, old}$$" />
