@@ -51,7 +51,9 @@ plot the graphs of the training process, in term of values of the loss function,
 
 ```python
 import pandas as pd
-from 
+from NN_train import train_model_classification
+from NN_train import plot_loss_accuracy
+
 # dataset loading
 monks2_train = pd.read_csv("input/monk2_oneofk.train", delimiter = " ", )
 monks2_train_x = monks2_train.drop(["target"],axis = 1).values
