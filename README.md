@@ -32,7 +32,7 @@ Parameters:
 
 * ```train_model_classification(X, y, X_valid=None, y_valid=None, neurons_hidden=5, epochs=500, lr=0.1, reg_lambda=0.0, momentum_alpha=0.0, validation_split = 0.0)```\
 The regression version of ```train_model_classification```. Same parameters (except ```threshold```) and same type of object returned\
-*Tech* = the output nodes here use a linear function instead of the sigmoid as in all the other nodes.
+(*Technical note*: the output nodes here use a linear function instead of the sigmoid as in all the other nodes).
 
 * ```cross_validation(hyperparams, cup_tr_X, cup_tr_y, K_fold)```\
 given a value for each hyperparameter to specify, and the number of folds, it returns the average loss values (for the training and validation set, separated), over the different models trained in each fold of the CV. Check the example below.
@@ -50,19 +50,21 @@ plot the graphs of the training process, in term of values of the loss function,
 ### Classification
 
 ```python
+import pandas as pd
+from 
 # dataset loading
 monks2_train = pd.read_csv("input/monk2_oneofk.train", delimiter = " ", )
 monks2_train_x = monks2_train.drop(["target"],axis = 1).values
 monks2_train_y = monks2_train["target"].values
 
 # training
-monks2_model = train_model(X=monks2_train_x,
-                           y=monks2_train_y,
-                           neurons_hidden=4,
-                           epochs= 150,
-                           momentum_alpha=0.7, 
-                           lr=0.1, reg_lambda=0.0, 
-                           validation_split = 0.2)
+monks2_model=train_model_classification(X=monks2_train_x,
+                                        y=monks2_train_y,
+                                        neurons_hidden=4,
+                                        epochs= 150,
+                                        momentum_alpha=0.7, 
+                                        lr=0.1, reg_lambda=0.0, 
+                                        validation_split = 0.2)
 # print the graphs
 plot_loss_accuracy(monks2_model)
 ```
@@ -88,7 +90,7 @@ mlcup_model = train_model_regression(cup_tr_X,
                                      momentum_alpha=0.5,
                                      epochs=2000,
                                      reg_lambda=0.001)
-# predict 
+# predict values
 mlcup_predicted = predict_values(model=mlcup_model, X=cup_tr_X, classification= False)
 
 # useful function for regression tasks with 2-D variable targets.
@@ -113,7 +115,23 @@ for hyperparams in hyperparams_list:
     cross_valid_results.append(cross_validation(hyperparams, cup_tr_X, cup_tr_y, K_fold=K_fold))
     print_grid (cross_valid_results[-1])
 ```
-![gridsearch](screenshots/gridsearch.png)
+eta: 0.1, alpha: 0.1, lambda: 0.0010; loss (valid): 1.271559; loss (train): 1.190428 
+
+eta: 0.1, alpha: 0.1, lambda: 0.0015; loss (valid): 1.274231; loss (train): 1.195610 
+
+eta: 0.1, alpha: 0.1, lambda: 0.0020; loss (valid): 1.277031; loss (train): 1.200826 
+
+eta: 0.1, alpha: 0.2, lambda: 0.0010; loss (valid): 1.259562; loss (train): 1.175468 
+
+eta: 0.1, alpha: 0.2, lambda: 0.0015; loss (valid): 1.263526; loss (train): 1.181529 
+
+eta: 0.1, alpha: 0.2, lambda: 0.0020; loss (valid): 1.267266; loss (train): 1.188179 
+
+eta: 0.1, alpha: 0.3, lambda: 0.0010; loss (valid): 1.255328; loss (train): 1.164949 
+
+eta: 0.1, alpha: 0.3, lambda: 0.0015; loss (valid): 1.259331; loss (train): 1.172377 
+
+eta: 0.1, alpha: 0.3, lambda: 0.0020; loss (valid): 1.262460; loss (train): 1.179579 
 ...
 ```python
 # and the winner is...
