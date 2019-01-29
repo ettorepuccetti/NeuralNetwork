@@ -65,7 +65,7 @@ monks2_model = train_model(X=monks2_train_x,
 plot_loss_accuracy(monks2_model)
 ```
 
-![accuracy](NeuralNetwork/screenshots/loss_monks2.png)
+![accuracy](https://github.com/ettorepuccetti/NeuralNetwork/blob/master/screenshots/loss_monks2.png)
 
 ## Theory: the Back-propagation algorithm
 
