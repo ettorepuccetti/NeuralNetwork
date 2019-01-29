@@ -12,10 +12,8 @@ Only few parameters to play with, less flexibility, less options. Easier to use 
 
 ## NN_train.py
 
-### binary classification
 
 * ```train_model_classification(X, y, X_valid=None, y_valid=None, neurons_hidden=5, epochs=500, lr=0.1, reg_lambda=0.0, momentum_alpha=0.0, validation_split = 0.0, threshold=0.5)```\
-\
 It return a trained ```model``` for classification, an object that incapsulate all the informations for predicting new values, plot the training intermediate results, and retrieve the hyperparameters used for the training process.\
 \
 Parameters:
@@ -32,22 +30,26 @@ Parameters:
   * ```validation_split```= the portion to be extracted from ```X``` for validation purpose (Ignored if ```X_valid``` and ```y_valid``` are not ```None```).
   * ```threshold``` = the thresold that a record need to achieve in order to be classified as positive. It is used during the prediction of values for the accuracy calculation.
 
-### regression
-
 * ```train_model_classification(X, y, X_valid=None, y_valid=None, neurons_hidden=5, epochs=500, lr=0.1, reg_lambda=0.0, momentum_alpha=0.0, validation_split = 0.0)```\
-The regression version of ```train_model_classification```. Same parameters (except ```threshold```) and same type of object returned
-
+The regression version of ```train_model_classification```. Same parameters (except ```threshold```) and same type of object returned\
 *Tech* = the output nodes here use a linear function instead of the sigmoid as in all the other nodes.
+
+* ```cross_validation(hyperparams, cup_tr_X, cup_tr_y, K_fold)```\
+given a value for each hyperparameter to specify, and the number of folds, it returns the average loss values (for the training and validation set, separated), over the different models trained in each fold of the CV. Check the example below.
 
 ## NN_tools.py
 
 * ```predict_values(model, X, classification=True)```\
 return a numpy array containing the results of the application of the ```X``` dataset to the ```model```. Specifiy if it is a classification task or not, by the last parameter ```classification``` (default = ```True```)
+
 * ```plot_loss_accuracy(model, print_accuracy=True)```\
 plot the graphs of the training process, in term of values of the loss function, and the accuracy result only in case of classification task. When the ```model``` is for regression, it must be call with ```print_accuracy=False```
 
-# An Example
-```
+## Examples
+
+### Classification
+
+```python
 # dataset loading
 monks2_train = pd.read_csv("input/monk2_oneofk.train", delimiter = " ", )
 monks2_train_x = monks2_train.drop(["target"],axis = 1).values
@@ -61,11 +63,65 @@ monks2_model = train_model(X=monks2_train_x,
                            momentum_alpha=0.7, 
                            lr=0.1, reg_lambda=0.0, 
                            validation_split = 0.2)
-
+# print the graphs
 plot_loss_accuracy(monks2_model)
 ```
 ![loss](screenshots/loss_monks2.png)
 ![accuracy](screenshots/accuracy_monks2.png)
+
+### Regression
+
+```python
+# dataset loading
+list_column = list('input' + str(i) for i in range(1,11))
+cup = pd.read_csv("input/ML-CUP17-TR.csv", skiprows=9, names= list_column +(['target_x','target_y']))
+cup_X = cup.drop(['target_x','target_y'],axis = 1).values
+cup_y = cup[['target_x','target_y']].values
+cup_tr_X, cup_ts_X, cup_tr_y, cup_ts_y = train_test_split(cup_X, cup_y, test_size=0.2, shuffle=True)
+
+# training
+mlcup_model = train_model_regression(cup_tr_X,
+                                     cup_tr_y,
+                                     validation_split=0.2,
+                                     lr=0.25,
+                                     neurons_hidden=16,
+                                     momentum_alpha=0.5,
+                                     epochs=2000,
+                                     reg_lambda=0.001)
+# predict 
+mlcup_predicted = predict_values(model=mlcup_model, X=cup_tr_X, classification= False)
+
+# useful function for regression tasks with 2-D variable targets.
+plot_point_cup( mlcup_predicted, cup_tr_y)
+```
+![scatterplot](screenshots/scatter.png)
+
+### Grid Search & Cross Validation
+```python
+from itertools import product
+
+# specify the number of folds and the hyperparameters to test
+K_fold = 3
+lr_list = [0.1, 0.2, 0.3, 0.4]
+alpha_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+lambda_list = [0.001, 0.0015, 0.002]
+hyperparams_list = list(product(*[lr_list, alpha_list, lambda_list]))
+
+# itarate over all the combination of hyperparams and obtained the average loss value for every combination, by cross validation
+cross_valid_results = []
+for hyperparams in hyperparams_list:
+    cross_valid_results.append(cross_validation(hyperparams, cup_tr_X, cup_tr_y, K_fold=K_fold))
+    print_grid (cross_valid_results[-1])
+```
+![gridsearch](screenshots/gridsearch.png)
+...
+```python
+# and the winner is...
+best_hyperparam_index = np.argmin([x['loss_valid'] for x in cross_valid_results])
+print('BEST --->', cross_valid_results[best_hyperparam_index])
+```
+BEST ---> {'hyperparam': (0.2, 0.8, 0.0015), 'loss_valid': 1.18905974645914, 'loss_train': 1.024073880506817}
+
 
 ## Theory: the Back-propagation algorithm
 
