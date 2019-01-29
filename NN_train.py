@@ -1,7 +1,7 @@
 # coding: utf-8
 from NN_tools import *
 
-def train_model(X, y, X_valid=None, y_valid=None, neurons_hidden=5, epochs=500, lr=0.1,
+def train_model_classification(X, y, X_valid=None, y_valid=None, neurons_hidden=5, epochs=500, lr=0.1,
                 reg_lambda=0.0, momentum_alpha=0.0, validation_split = 0.0, threshold=0.5):
     
     X,y = datapreprocessing(X,y)

@@ -4,18 +4,21 @@ Basic functions for the training and use of a neural network, with a single hidd
 Of course, it is not the most complete experience in term of NN on Python.
 Only few parameters to play with, less flexibility, less options. Easier to use ;)
 
-* NN_train.py contains the actual training functions, for regression and for classification tasks.
+* ```NN_train.py``` contains the actual training functions, for regression and for classification tasks.
 
-* NN_tools.py contains some useful functions both for the training phase and the visualization of results.
+* ```NN_tools.py``` contains some useful functions both for the training phase and the visualization of results.
 
-* examples_of_usages.ipynb contains some case studies for showing the usage of the main functions.
+* ```examples_of_usages.ipynb``` contains some case studies for showing the usage of the main functions.
 
 ## NN_train.py
 
 ### binary classification
 
 * ```train_model_classification(X, y, X_valid=None, y_valid=None, neurons_hidden=5, epochs=500, lr=0.1, reg_lambda=0.0, momentum_alpha=0.0, validation_split = 0.0, threshold=0.5)```\
-It return a trained ```model``` for classification, an object that incapsulate all the informations for predicting new values, plot the training intermediate results, and retrieve the hyperparameters used for the training process.
+\
+It return a trained ```model``` for classification, an object that incapsulate all the informations for predicting new values, plot the training intermediate results, and retrieve the hyperparameters used for the training process.\
+\
+Parameters:
 
   * ```X``` = the input dataset to be used for training.
   * ```y``` = the vector of target variables.
