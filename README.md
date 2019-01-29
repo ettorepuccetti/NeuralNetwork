@@ -35,7 +35,7 @@ Parameters:
 ### regression
 
 * ```train_model_classification(X, y, X_valid=None, y_valid=None, neurons_hidden=5, epochs=500, lr=0.1, reg_lambda=0.0, momentum_alpha=0.0, validation_split = 0.0)```\
-The regression version of ```train_model_classification```. Same parameters (except ```threshold```) and same type of object returned\
+The regression version of ```train_model_classification```. Same parameters (except ```threshold```) and same type of object returned
 
 *Tech* = the output nodes here use a linear function instead of the sigmoid as in all the other nodes.
 
@@ -48,8 +48,25 @@ plot the graphs of the training process, in term of values of the loss function,
 
 # An Example
 ```
+# dataset loading
+monks2_train = pd.read_csv("input/monk2_oneofk.train", delimiter = " ", )
+monks2_train_x = monks2_train.drop(["target"],axis = 1).values
+monks2_train_y = monks2_train["target"].values
 
+# training
+monks2_model = train_model(X=monks2_train_x,
+                           y=monks2_train_y,
+                           neurons_hidden=4,
+                           epochs= 150,
+                           momentum_alpha=0.7, 
+                           lr=0.1, reg_lambda=0.0, 
+                           validation_split = 0.2)
+
+plot_loss_accuracy(monks2_model)
 ```
+
+![accuracy](NeuralNetwork/screenshots/loss_monks2.png)
+
 ## Theory: the Back-propagation algorithm
 
 In this section is briefly explained how the neural network is trained.\
